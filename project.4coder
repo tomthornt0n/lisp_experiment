@@ -1,0 +1,74 @@
+version(1);
+
+project_name = "lisp_experiments";
+
+patterns =
+{
+    "*.c",
+    "*.cpp",
+    "*.jai",
+    "*.odin",
+    "*.zig",
+    "*.h",
+    "*.inc",
+    "*.bat",
+    "*.sh",
+    "*.4coder",
+    "*.txt",
+};
+
+blacklist_patterns =
+{
+    ".*",
+};
+
+load_paths =
+{
+    { { {"."}, .recursive = true, .relative = true }, .os = "win" },
+    { { {"."}, .recursive = true, .relative = false }, .os = "linux" },
+};
+
+command_list =
+{
+    {
+        .name = "build",
+        .out = "*compilation*",
+        .footer_panel = true,
+        .save_dirty_files = true,
+        .cursor_at_end = false,
+        .cmd =
+        {
+            { ".\build.bat", .os = "win" },
+            { "./build.sh", .os = "linux" },
+        },
+    },
+    
+    {
+        .name = "run",
+        .out = "*compilation*",
+        .footer_panel = true,
+        .save_dirty_files = true,
+        .cursor_at_end = false,
+        .cmd =
+        {
+            { "pushd build && lisp_experiment_debug.exe && popd", .os = "win" },
+            { "build/lisp_experiment", .os = "linux" },
+        },
+    },
+    
+    {
+        .name = "run_release",
+        .out = "*compilation*",
+        .footer_panel = true,
+        .save_dirty_files = true,
+        .cursor_at_end = false,
+        .cmd =
+        {
+            { "pushd build && lisp_experiment.exe && popd", .os = "win" },
+            { "build/lisp_experiment", .os = "linux" },
+        },
+    },
+};
+
+fkey_command[1] = "build";
+fkey_command[2] = "run";
